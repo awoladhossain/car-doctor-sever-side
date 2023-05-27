@@ -50,7 +50,7 @@ const verifyJWT =(req,res,next)=>{
 async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
-    await client.connect();
+  
 
     const serviceCollection = client.db('CarDoctors').collection('services');
     const bookingCollection = client.db('CarDoctors').collection('bookings');
@@ -66,7 +66,7 @@ async function run() {
 
     // service collection
     app.get('/services',async(req,res)=>{
-      const cursor  = serviceCollection.find();
+      const cursor  = serviceCollection.find({});
       const result = await cursor.toArray();
       res.send(result);
     })
@@ -82,7 +82,7 @@ async function run() {
     })
     // bookings 
     app.get('/bookings',verifyJWT,async(req,res)=>{
-      // console.log(req.headers.authorization);
+      console.log(req.headers.authorization);
       const decoded = req.decoded;
       console.log('came back after verify', decoded);
 
@@ -139,7 +139,7 @@ run().catch(console.dir);
 
 
 app.get('/',(req,res)=>{
-    res.send('Hello World is');
+    res.send('Car Doctor is running');
 })
 app.listen(port,()=>{
     console.log(`Server is running on port: ${port}`);
